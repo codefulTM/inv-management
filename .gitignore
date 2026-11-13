@@ -2,6 +2,9 @@ HELP.md
 target/
 .mvn/wrapper/maven-wrapper.jar
 
+### Local planning notes (not versioned) ###
+roadmap/
+
 ### Secrets ###
 .env
 !**/src/main/**/target/
