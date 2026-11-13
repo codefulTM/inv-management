@@ -1,0 +1,69 @@
+@startuml 01-use-case
+' Inventory Management — UML use case diagram (authoritative version)
+' Render: see docs/diagrams/README.md
+
+!pragma layout smetana
+left to right direction
+skinparam shadowing false
+skinparam packageStyle rectangle
+skinparam actorStyle hollow
+
+actor "Admin" as ADM
+actor "Staff" as STF
+actor "Viewer" as VWR
+
+' Generalization arrow points at the PARENT actor.
+' Admin is a kind of Staff (adds destructive/admin ops),
+' Staff is a kind of Viewer (adds stock and order ops).
+ADM --|> STF
+STF --|> VWR
+
+rectangle "Inventory Management System" {
+
+  usecase "UC-01 Log in"                          as UC01
+  usecase "UC-02 Browse and search products"       as UC02
+  usecase "UC-03 Create or update a product"       as UC03
+  usecase "UC-04 Deactivate a product"             as UC04
+  usecase "UC-05 View warehouses"                  as UC05
+  usecase "UC-06 Create a warehouse"               as UC06
+  usecase "UC-07 Adjust stock"                     as UC07
+  usecase "UC-08 View movement history"            as UC08
+  usecase "UC-09 Manage suppliers"                 as UC09
+  usecase "UC-10 Create and place a PO"            as UC10
+  usecase "UC-11 Receive a purchase order"         as UC11
+  usecase "UC-12 Create and confirm a sales order" as UC12
+  usecase "UC-13 Review low-stock alerts"          as UC13
+  usecase "UC-14 View stock value report"          as UC14
+  usecase "UC-15 View audit log"                   as UC15
+}
+
+' --- Associations: each actor lists ONLY what it adds ------------------
+' Everything else it can do arrives through generalization, so the
+' matrix is not repeated on every actor.
+
+' Viewer: read-only baseline
+VWR -- UC01
+VWR -- UC02
+VWR -- UC05
+VWR -- UC08
+VWR -- UC13
+VWR -- UC14
+
+' Staff: adds product writes, stock operations and order handling
+STF -- UC03
+STF -- UC07
+STF -- UC09
+STF -- UC10
+STF -- UC11
+STF -- UC12
+
+' Admin: adds product deactivation, warehouse creation and audit access
+ADM -- UC04
+ADM -- UC06
+ADM -- UC15
+
+' --- Use case relations (the only UML-valid kinds) ---------------------
+UC11 ..> UC07 : <<include>>
+UC12 ..> UC07 : <<include>>
+
+@enduml
