@@ -1,0 +1,41 @@
+services:
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-inventory}
+      POSTGRES_USER: ${DB_USER:-inventory}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-change_me}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-inventory} -d ${DB_NAME:-inventory}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  app:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${DB_NAME:-inventory}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER:-inventory}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD:-change_me}
+      SPRING_FLYWAY_URL: jdbc:postgresql://postgres:5432/${DB_NAME:-inventory}
+      SPRING_FLYWAY_USER: ${DB_USER:-inventory}
+      SPRING_FLYWAY_PASSWORD: ${DB_PASSWORD:-change_me}
+    ports:
+      - "3000:8080"
+    env_file:
+      - .env
+
+volumes:
+  pgdata:
