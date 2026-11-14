@@ -1,0 +1,9 @@
+# ============================================================
+# application-test.yml — Configuration for test profile
+# Testcontainers auto-injects datasource via @ServiceConnection
+# ============================================================
+
+spring:
+  flyway:
+    # Run migrations only from the main folder
+    locations: classpath:db/migration

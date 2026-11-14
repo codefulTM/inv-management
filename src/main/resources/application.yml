@@ -1,0 +1,28 @@
+# ============================================================
+# application.yml — Shared configuration for all profiles
+# ============================================================
+
+spring:
+  jpa:
+    hibernate:
+      # Validate schema only (Flyway manages schema, not Hibernate)
+      ddl-auto: validate
+  flyway:
+    enabled: true
+  jackson:
+    serialization:
+      # Serialize dates as ISO-8601 strings instead of timestamps
+      write-dates-as-timestamps: false
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+management:
+  endpoints:
+    web:
+      exposure:
+        # Only expose health endpoint (public); others require auth
+        include: health

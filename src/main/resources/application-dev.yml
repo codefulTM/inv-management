@@ -1,0 +1,30 @@
+# ============================================================
+# application-dev.yml — Configuration for dev profile only
+# Only overrides values different from application.yml
+# ============================================================
+
+spring:
+  datasource:
+    # Connect to PostgreSQL running on localhost (docker-compose)
+    url: jdbc:postgresql://localhost:5432/inventory
+    username: inventory
+    password: change_me
+    hikari:
+      # Limit connection pool to avoid overloading local DB
+      maximum-pool-size: 10
+  jpa:
+    # Display SQL in logs (for debugging)
+    show-sql: true
+    properties:
+      hibernate:
+        # Format SQL for readability
+        format_sql: true
+  flyway:
+    # Run migrations from both main and dev seed folders
+    locations: classpath:db/migration,classpath:db/migration-dev
+
+logging:
+  level:
+    # Log detailed SQL + parameters (use only when debugging)
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
