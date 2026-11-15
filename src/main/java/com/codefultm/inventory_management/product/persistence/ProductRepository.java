@@ -3,15 +3,24 @@ package com.codefultm.inventory_management.product.persistence;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.util.Optional;
 
 /**
  * Repository for Product entity.
  * Provides CRUD operations plus search/filter capabilities.
- * Uses derived query methods — Spring Data JPA auto-generates SQL from method names.
+ *
+ * <p>Two styles coexist on purpose:
+ * <ul>
+ *   <li><b>derived queries</b> ({@code findBy...}) — readable, perfect for single-filter lookups;</li>
+ *   <li><b>{@link JpaSpecificationExecutor}</b> — lets the service compose <em>several</em>
+ *       optional filters in one query (see {@link ProductSpecifications}). A derived
+ *       method cannot express "name OR category OR both", it would need one method per
+ *       combination.</li>
+ * </ul>
  */
-public interface ProductRepository extends JpaRepository<Product, Long> {
+public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> {
 
     /**
      * Find active products by name (case-insensitive partial match).

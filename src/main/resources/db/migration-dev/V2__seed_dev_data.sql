@@ -1,10 +1,10 @@
 -- ============================================================
--- V2__seed_dev_data.sql — Seed data cho profile dev
--- Migration này CHỈ chạy trong profile dev (migration-dev/)
--- KHÔNG commit dữ liệu nhạy cảm (password, token) vào migration
+-- V2__seed_dev_data.sql — Seed data for the dev profile
+-- This migration ONLY runs under the dev profile (migration-dev/)
+-- NEVER commit sensitive data (passwords, tokens) into migrations
 -- ============================================================
 
--- 1. Role definitions (3 roles cơ bản)
+-- 1. Role definitions (3 base roles)
 INSERT INTO role (name, description) VALUES
     ('ADMIN', 'Full access to all features'),
     ('STAFF', 'Can create and manage orders'),

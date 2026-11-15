@@ -15,6 +15,16 @@ public class NotFoundException extends RuntimeException {
         this.entityId = entityId;
     }
 
+    /**
+     * Message-only variant, for lookups that are not keyed by id
+     * (for example "no product with SKU 'ABC'").
+     */
+    public NotFoundException(String message) {
+        super(message);
+        this.entityType = null;
+        this.entityId = null;
+    }
+
     public String getEntityType() {
         return entityType;
     }

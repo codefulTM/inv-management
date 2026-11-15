@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
-
 import com.codefultm.inventory_management.testsupport.AbstractIntegrationTest;
 
 /**
@@ -24,6 +23,7 @@ class InventoryManagementApplicationTests extends AbstractIntegrationTest {
 
     private final JdbcTemplate jdbcTemplate;
 
+    @Autowired
     InventoryManagementApplicationTests(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
